@@ -14,10 +14,6 @@ public class EmployeeServiceImpl {
 
     private EmployeesRepository employeesRepository;
 
-    public EmployeeServiceImpl() {
-        this.employeesRepository = employeesRepository;
-    }
-
     public Collection<Employee> getAllEmployees() {
         return this.employees.values();
     }//получить всех сотрудников

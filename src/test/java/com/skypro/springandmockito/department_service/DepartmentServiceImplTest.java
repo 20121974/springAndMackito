@@ -3,6 +3,7 @@ package com.skypro.springandmockito.department_service;
 import com.skypro.springandmockito.model.Employee;
 import com.skypro.springandmockito.repository.EmployeesRepository;
 import com.skypro.springandmockito.service.department_service.DepartmentServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,10 +31,19 @@ public class DepartmentServiceImplTest {
     @BeforeEach
     public void setUp() {
         Employee employee1 = new Employee(1, "Ivan", "Ivanov", 40_000, 1);
-        Employee employee2 = new Employee(2, "Petr", "Petrov", 30_000, 2);
-        Employee employee3 = new Employee(3, "Liza", "Sidorova", 25_000, 3);
+        Employee employee2 = new Employee(2, "Ivan", "Ivanov", 35_000, 1);
+        Employee employee3 = new Employee(3, "Ivan", "Ivanov", 40_000, 2);
+        Employee employee4 = new Employee(4, "Petr", "Petrov", 30_000, 2);
+        Employee employee5 = new Employee(5, "Liza", "Sidorova", 50_000, 3);
+        Employee employee6 = new Employee(6, "Liza", "Sidorova", 45_000, 3);
 
-        actualEmployees = new ArrayList<>(List.of(employee1, employee2, employee3));
+        actualEmployees = new ArrayList<>(List.of(
+                employee1,
+                employee2,
+                employee3,
+                employee4,
+                employee5,
+                employee6));
         when(employeesRepository.getEmployees()).thenReturn(actualEmployees);
     }
     @Test
@@ -55,26 +65,17 @@ public class DepartmentServiceImplTest {
 
     @Test
     public void shouldReturnRightSalarySumOfDepartment() {
-        final int departmentId = 1;
-        final int actual = actualEmployees.stream().mapToInt(Employee::getSalary).sum();
-        final int expected = departmentService.getSalarySumOfDepartment(departmentId);
-        assertEquals(expected, actual);
+        Assertions.assertEquals(25_000, departmentService.getSalarySumOfDepartment(1));
     }
 
     @Test
     public void shouldReturnRightSalaryMaxDepartment() {
-        final int departmentId = 1;
-        final Employee actual = actualEmployees.stream().max(Comparator.comparingInt(Employee::getSalary)).get();
-        final int expected = departmentService.getSalaryMaxDepartment(departmentId);
-        assertEquals(expected, actual);
+        Assertions.assertEquals(25_000, departmentService.getSalaryMaxDepartment(2));
     }
 
     @Test
     public void shouldReturnRightSalaryMinDepartment() {
-        final int departmentId = 1;
-        final Employee actual = actualEmployees.stream().min(Comparator.comparingInt(Employee::getSalary)).get();
-        final int expected = departmentService.getSalaryMinDepartment(departmentId);
-        assertEquals(expected, actual);
+        Assertions.assertEquals(25_000, departmentService.getSalaryMinDepartment(3));
     }
 
 }
